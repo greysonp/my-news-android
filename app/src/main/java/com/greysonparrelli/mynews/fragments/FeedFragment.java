@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.greysonparrelli.mynews.NetworkUtil;
+import com.greysonparrelli.mynews.utils.NetworkUtil;
 import com.greysonparrelli.mynews.R;
 import com.greysonparrelli.mynews.adapters.FeedItemAdapter;
 import com.greysonparrelli.mynews.models.Feed;
@@ -71,7 +71,6 @@ public class FeedFragment extends Fragment {
 
             @Override
             public void onResponse(Feed feed) {
-                Toast.makeText(getContext(), "SUCCESS", Toast.LENGTH_SHORT).show();
                 mFeed = feed;
                 mAdapter.setFeedItems(mFeed.getEntries());
             }

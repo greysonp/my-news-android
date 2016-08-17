@@ -1,4 +1,4 @@
-package com.greysonparrelli.mynews;
+package com.greysonparrelli.mynews.utils;
 
 import com.greysonparrelli.mynews.models.FeedItem;
 import com.greysonparrelli.mynews.models.Feed;
@@ -50,19 +50,24 @@ public class NetworkUtil {
             parser.setInput(in);
 
             FeedItem currentFeedItem = null;
+            String name = null;
             String text = null;
+            String link = null;
             while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
                 switch (parser.getEventType()) {
                     case XmlPullParser.START_TAG:
-                        if (parser.getName().equalsIgnoreCase("entry") || parser.getName().equalsIgnoreCase("item")) {
+                        name = parser.getName();
+                        if (name.equalsIgnoreCase("entry") || parser.getName().equalsIgnoreCase("item")) {
                             currentFeedItem = new FeedItem();
+                        } else if (name.equalsIgnoreCase("link")) {
+                            link = parser.getAttributeValue(null, "href");
                         }
                         break;
                     case XmlPullParser.TEXT:
                         text = parser.getText();
                         break;
                     case XmlPullParser.END_TAG:
-                        String name = parser.getName();
+                        name = parser.getName();
                         if (currentFeedItem == null) {
                             if (name.equalsIgnoreCase("title")) {
                                 feed.setTitle(text);
@@ -80,7 +85,14 @@ public class NetworkUtil {
                             } else if (name.equalsIgnoreCase("content") || name.equalsIgnoreCase("description")) {
                                 currentFeedItem.setContent(text);
                             } else if (name.equalsIgnoreCase("link")) {
-                                currentFeedItem.setLink(text);
+                                if (link != null) {
+                                    currentFeedItem.setLink(link);
+                                    link = null;
+                                } else {
+                                    currentFeedItem.setLink(text);
+                                }
+                            } else if (name.equalsIgnoreCase("published") || name.equalsIgnoreCase("pubDate")) {
+                                currentFeedItem.setPublishDate(text);
                             }
                         }
                         break;

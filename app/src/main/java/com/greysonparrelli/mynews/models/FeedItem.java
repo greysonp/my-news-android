@@ -8,6 +8,7 @@ public class FeedItem implements Parcelable {
     private String mTitle;
     private String mContent;
     private String mLink;
+    private String mPublishDate;
 
     public FeedItem() {}
 
@@ -39,6 +40,14 @@ public class FeedItem implements Parcelable {
 
     public void setLink(String link) {
         this.mLink = link;
+    }
+
+    public String getPublishDate() {
+        return mPublishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        mPublishDate = publishDate;
     }
 
 

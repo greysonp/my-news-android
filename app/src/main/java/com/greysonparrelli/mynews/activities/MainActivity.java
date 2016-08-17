@@ -1,8 +1,9 @@
-package com.greysonparrelli.mynews;
+package com.greysonparrelli.mynews.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.greysonparrelli.mynews.R;
 import com.greysonparrelli.mynews.fragments.FeedItemFragment;
 import com.greysonparrelli.mynews.fragments.FeedFragment;
 import com.greysonparrelli.mynews.models.FeedItem;

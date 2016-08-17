@@ -1,5 +1,6 @@
 package com.greysonparrelli.mynews.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.greysonparrelli.mynews.R;
 import com.greysonparrelli.mynews.models.FeedItem;
+import com.greysonparrelli.mynews.views.FeedItemWebView;
 
 public class FeedItemFragment extends Fragment {
 
@@ -19,7 +21,8 @@ public class FeedItemFragment extends Fragment {
     private static String KEY_FEED_ITEM = "feed_item";
 
     private FeedItem mFeedItem;
-    private WebView mContentView;
+    private FeedItemWebView mContentView;
+    private TextView mTitleView;
 
 
     public static FeedItemFragment newInstance(FeedItem item) {
@@ -48,16 +51,21 @@ public class FeedItemFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContentView = (WebView) view.findViewById(R.id.content);
+
+        mTitleView = (TextView) view.findViewById(R.id.title);
+
+        mContentView = (FeedItemWebView) view.findViewById(R.id.content);
         mContentView.getSettings().setUseWideViewPort(false);
+        mContentView.setScrollContainer(false);
+        mContentView.setBackgroundColor(Color.TRANSPARENT);
         WebView.setWebContentsDebuggingEnabled(true);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        String newContent = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" +
-                "<style> img { width: 100%; height: auto; } </style>" + mFeedItem.getContent();
-        mContentView.loadData(newContent, "text/html", "utf8");
+
+        mTitleView.setText(mFeedItem.getTitle());
+        mContentView.setHtmlContent(mFeedItem.getContent());
     }
 }

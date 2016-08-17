@@ -1,4 +1,4 @@
-package com.greysonparrelli.mynews;
+package com.greysonparrelli.mynews.utils;
 
 import android.os.Handler;
 import android.os.Looper;
