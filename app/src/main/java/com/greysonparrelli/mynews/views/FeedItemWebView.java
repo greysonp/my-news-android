@@ -2,12 +2,17 @@ package com.greysonparrelli.mynews.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.WebView;
 
 /**
  * @author Greyson Parrelli (keybase.io/greyson)
  */
 public class FeedItemWebView extends WebView {
+
+    {
+        getSettings().setDefaultTextEncodingName("utf-8");
+    }
 
     private static final String HTML_PREPEND =
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" +
@@ -28,6 +33,6 @@ public class FeedItemWebView extends WebView {
     }
 
     public void setHtmlContent(String html) {
-        loadData(HTML_PREPEND + html, "text/html", "utf8");
+        loadData(HTML_PREPEND + html, "text/html; charset=utf-8", null);
     }
 }
