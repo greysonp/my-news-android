@@ -21,6 +21,9 @@ import java.io.IOException;
 
 import okhttp3.Call;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class FeedFragment extends Fragment {
 
     public static String TAG = "FeedListFragment";

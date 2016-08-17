@@ -13,6 +13,9 @@ import com.greysonparrelli.mynews.models.FeedItem;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedItemViewHolder> {
 
     private List<FeedItem> mFeedItem;

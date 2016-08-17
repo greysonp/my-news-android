@@ -8,6 +8,10 @@ import com.greysonparrelli.mynews.fragments.FeedItemFragment;
 import com.greysonparrelli.mynews.fragments.FeedFragment;
 import com.greysonparrelli.mynews.models.FeedItem;
 
+
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class MainActivity extends AppCompatActivity implements FeedFragment.FeedController {
 
     @Override

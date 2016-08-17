@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class FeedItemWebView extends WebView {
 
     private static final String HTML_PREPEND =

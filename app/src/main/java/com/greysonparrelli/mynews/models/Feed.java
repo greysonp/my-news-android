@@ -3,6 +3,9 @@ package com.greysonparrelli.mynews.models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class Feed {
 
     private String mTitle;

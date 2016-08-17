@@ -16,6 +16,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class NetworkUtil {
 
     public static void getFeed(String url, final FeedCallback callback) {

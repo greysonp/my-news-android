@@ -14,6 +14,9 @@ import com.greysonparrelli.mynews.R;
 import com.greysonparrelli.mynews.models.FeedItem;
 import com.greysonparrelli.mynews.views.FeedItemWebView;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class FeedItemFragment extends Fragment {
 
     public static String TAG = "FeedItemFragment";

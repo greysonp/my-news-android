@@ -3,6 +3,9 @@ package com.greysonparrelli.mynews.utils;
 import android.os.Handler;
 import android.os.Looper;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class UiUtil {
 
     public static void runOnMainThread(Runnable runnable) {

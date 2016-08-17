@@ -3,6 +3,9 @@ package com.greysonparrelli.mynews.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * @author Greyson Parrelli (keybase.io/greyson)
+ */
 public class FeedItem implements Parcelable {
 
     private String mTitle;
