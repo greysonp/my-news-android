@@ -84,7 +84,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
 
             List<String> imageUrls = HtmlUtil.getImgUrls(feedItem.getContent());
             if (imageUrls.size() > 0) {
-                Glide.with(itemView.getContext()).load(imageUrls.get(0)).into(mThumbnail);`
+                Glide.with(itemView.getContext()).load(imageUrls.get(0)).into(mThumbnail);
             }
         }
 
