@@ -19,10 +19,12 @@ public class MainActivity extends AppCompatActivity implements FeedFragment.Feed
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction().add(
-                R.id.fragment_container,
-                FeedFragment.newInstance(),
-                FeedFragment.TAG).commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().add(
+                    R.id.fragment_container,
+                    FeedFragment.newInstance(),
+                    FeedFragment.TAG).commit();
+        }
     }
 
     @Override
