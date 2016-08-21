@@ -18,4 +18,8 @@ public class HtmlUtil {
         }
         return urls;
     }
+
+    public static String getText(String html) {
+        return html.replaceAll("<.*?>", "").trim();
+    }
 }

@@ -1,5 +1,6 @@
 package com.greysonparrelli.mynews.utils;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.greysonparrelli.mynews.models.FeedItem;
 import com.greysonparrelli.mynews.models.Feed;
 
@@ -21,12 +22,18 @@ import okhttp3.Response;
  */
 public class NetworkUtil {
 
+    private static OkHttpClient sClient;
+    static {
+        sClient = new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+    }
+
     public static void getFeed(String url, final FeedCallback callback) {
-        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
+        sClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 callback.onFailure(call, e);

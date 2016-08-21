@@ -59,7 +59,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
 
         private ImageView mThumbnail;
         private TextView mTitle;
-        private TextView mLink;
+        private TextView mSnippet;
         private FeedFragment.FeedController mController;
 
         public FeedItemViewHolder(View itemView, FeedFragment.FeedController controller) {
@@ -68,12 +68,12 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
 
             mThumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
             mTitle = (TextView) itemView.findViewById(R.id.title);
-            mLink = (TextView) itemView.findViewById(R.id.link);
+            mSnippet = (TextView) itemView.findViewById(R.id.snippet);
         }
 
         public void bind(final FeedItem feedItem) {
             mTitle.setText(feedItem.getTitle());
-            mLink.setText(feedItem.getLink());
+            mSnippet.setText(HtmlUtil.getText(feedItem.getContent()));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
