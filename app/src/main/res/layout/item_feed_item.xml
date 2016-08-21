@@ -25,6 +25,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             tools:text="Title"/>
 
         <TextView
@@ -34,13 +35,9 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
+            android:textSize="14sp"
+            android:alpha="0.7"
             tools:text="Snippet"/>
-
-        <TextView
-            android:id="@+id/link"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="http://example.com"/>
 
     </LinearLayout>
 
