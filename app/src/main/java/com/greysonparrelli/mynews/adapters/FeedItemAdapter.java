@@ -16,6 +16,8 @@ import com.greysonparrelli.mynews.utils.HtmlUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 /**
  * @author Greyson Parrelli (keybase.io/greyson)
  */
@@ -84,7 +86,11 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
 
             List<String> imageUrls = HtmlUtil.getImgUrls(feedItem.getContent());
             if (imageUrls.size() > 0) {
-                Glide.with(itemView.getContext()).load(imageUrls.get(0)).into(mThumbnail);
+                Glide.with(itemView.getContext())
+                        .load(imageUrls.get(0))
+                        .centerCrop()
+                        .bitmapTransform(new RoundedCornersTransformation(itemView.getContext(), 20, 0))
+                        .into(mThumbnail);
             }
         }
 

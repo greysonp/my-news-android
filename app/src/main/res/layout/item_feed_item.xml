@@ -10,22 +10,21 @@
 
     <ImageView
         android:id="@+id/thumbnail"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="120dp"
+        android:layout_height="90dp"
         android:paddingEnd="8dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
             tools:text="Title"/>
 
         <TextView
@@ -35,7 +34,6 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textSize="14sp"
             android:alpha="0.7"
             tools:text="Snippet"/>
 
