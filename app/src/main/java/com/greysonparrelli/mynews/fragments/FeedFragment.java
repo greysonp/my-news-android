@@ -95,6 +95,6 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     public interface FeedController {
-        void showFeedItem(FeedItem item);
+        void showFeedItem(FeedItem item, View titleView);
     }
 }

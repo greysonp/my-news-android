@@ -1,5 +1,6 @@
 package com.greysonparrelli.mynews.adapters;
 
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
 
     @Override
     public void onBindViewHolder(FeedItemViewHolder holder, int position) {
-        holder.bind(mFeedItem.get(position));
+        holder.bind(mFeedItem.get(position), position);
     }
 
     @Override
@@ -73,14 +74,17 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
             mSnippet = (TextView) itemView.findViewById(R.id.snippet);
         }
 
-        public void bind(final FeedItem feedItem) {
+        public void bind(final FeedItem feedItem, int position) {
             mTitle.setText(feedItem.getTitle());
+            ViewCompat.setTransitionName(
+                    mTitle,
+                    itemView.getContext().getString(R.string.title_transition_name) + position);
             mSnippet.setText(HtmlUtil.getText(feedItem.getContent()));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mController.showFeedItem(feedItem);
+                    mController.showFeedItem(feedItem, mTitle);
                 }
             });
 
