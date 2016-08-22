@@ -1,56 +1,54 @@
 package com.greysonparrelli.mynews.models;
 
+import com.greysonparrelli.mynews.data.AppDatabase;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
+import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Greyson Parrelli (keybase.io/greyson)
  */
-public class Feed {
+@Table(database = AppDatabase.class)
+public class Feed extends BaseModel {
 
-    private String mTitle;
-    private String mIconUrl;
-    private String mLink;
-    private List<FeedItem> mEntries;
+    @PrimaryKey(autoincrement = true)
+    public long id;
+
+    @Column(name = "title")
+    public String title;
+
+    @Column(name = "icon_url")
+    public String iconUrl;
+
+    @Column(name = "link")
+    public String link;
+
+    List<FeedItem> entries;
 
     public Feed() {
-        mEntries = new ArrayList<>();
-    }
-
-    public String getLink() {
-        return mLink;
-    }
-
-    public void setLink(String link) {
-        this.mLink = link;
-    }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setTitle(String title) {
-        this.mTitle = title;
-    }
-
-    public String getIconUrl() {
-        return mIconUrl;
-    }
-
-    public void setIconUrl(String iconUrl) {
-        this.mIconUrl = iconUrl;
+        entries = new ArrayList<>();
     }
 
     public void addEntry(FeedItem feedItem) {
-        mEntries.add(feedItem);
+        entries.add(feedItem);
     }
 
+    @OneToMany(methods = {OneToMany.Method.ALL})
     public List<FeedItem> getEntries() {
-        return mEntries;
-    }
-
-    @Override
-    public String toString() {
-        return "Title: " + getTitle() + " | " + getEntries().toString();
+        if (entries == null || entries.isEmpty()) {
+            entries = SQLite.select()
+                    .from(FeedItem.class)
+                    .where(FeedItem_Table.feedId.eq(id))
+                    .queryList();
+        }
+        return entries;
     }
 }

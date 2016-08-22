@@ -77,8 +77,8 @@ public class FeedItemFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        mTitleView.setText(mFeedItem.getTitle());
-        mContentView.setHtmlContent(mFeedItem.getContent());
+        mTitleView.setText(mFeedItem.title);
+        mContentView.setHtmlContent(mFeedItem.content);
     }
 
     @Override

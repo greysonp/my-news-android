@@ -75,11 +75,11 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
         }
 
         public void bind(final FeedItem feedItem, int position) {
-            mTitle.setText(feedItem.getTitle());
+            mTitle.setText(feedItem.title);
             ViewCompat.setTransitionName(
                     mTitle,
                     itemView.getContext().getString(R.string.title_transition_name) + position);
-            mSnippet.setText(HtmlUtil.getText(feedItem.getContent()));
+            mSnippet.setText(HtmlUtil.getText(feedItem.content));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,7 +88,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
                 }
             });
 
-            List<String> imageUrls = HtmlUtil.getImgUrls(feedItem.getContent());
+            List<String> imageUrls = HtmlUtil.getImgUrls(feedItem.content);
             if (imageUrls.size() > 0) {
                 Glide.with(itemView.getContext())
                         .load(imageUrls.get(0))

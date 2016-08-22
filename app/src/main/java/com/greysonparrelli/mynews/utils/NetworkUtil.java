@@ -80,29 +80,29 @@ public class NetworkUtil {
                         name = parser.getName();
                         if (currentFeedItem == null) {
                             if (name.equalsIgnoreCase("title")) {
-                                feed.setTitle(text);
+                                feed.title = text;
                             } else if (name.equalsIgnoreCase("icon")) {
-                                feed.setIconUrl(text);
+                                feed.iconUrl = text;
                             } else if (name.equalsIgnoreCase("link")) {
-                                feed.setLink(text);
+                                feed.link = text;
                             }
                         } else {
                             if (name.equalsIgnoreCase("entry") || name.equalsIgnoreCase("item")) {
                                 feed.addEntry(currentFeedItem);
                                 currentFeedItem = null;
                             } else if (name.equalsIgnoreCase("title")) {
-                                currentFeedItem.setTitle(text);
+                                currentFeedItem.title = text;
                             } else if (name.equalsIgnoreCase("content") || name.equalsIgnoreCase("description")) {
-                                currentFeedItem.setContent(text);
+                                currentFeedItem.content = text;
                             } else if (name.equalsIgnoreCase("link")) {
                                 if (link != null) {
-                                    currentFeedItem.setLink(link);
+                                    currentFeedItem.link = link;
                                     link = null;
                                 } else {
-                                    currentFeedItem.setLink(text);
+                                    currentFeedItem.link = text;
                                 }
                             } else if (name.equalsIgnoreCase("published") || name.equalsIgnoreCase("pubDate")) {
-                                currentFeedItem.setPublishDate(text);
+                                currentFeedItem.publishDate = text;
                             }
                         }
                         break;

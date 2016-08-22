@@ -3,56 +3,48 @@ package com.greysonparrelli.mynews.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.greysonparrelli.mynews.data.AppDatabase;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.Unique;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
 /**
  * @author Greyson Parrelli (keybase.io/greyson)
  */
-public class FeedItem implements Parcelable {
+@Table(database = AppDatabase.class)
+public class FeedItem extends BaseModel implements Parcelable {
 
-    private String mTitle;
-    private String mContent;
-    private String mLink;
-    private String mPublishDate;
+    @PrimaryKey(autoincrement = true)
+    public long id;
+
+    @Column
+    @ForeignKeyReference(columnName = "feed_id", foreignKeyColumnName = "id", columnType = Feed.class)
+    public long feedId;
+
+    @Column
+    public String title;
+
+    @Column
+    public String content;
+
+    @Column
+    @Unique
+    public String link;
+
+    @Column
+    public String publishDate;
 
     public FeedItem() {}
 
     protected FeedItem(Parcel in) {
-        mTitle = in.readString();
-        mContent = in.readString();
-        mLink = in.readString();
+        id = in.readLong();
+        title = in.readString();
+        content = in.readString();
+        link = in.readString();
     }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setTitle(String title) {
-        this.mTitle = title;
-    }
-
-    public String getContent() {
-        return mContent;
-    }
-
-    public void setContent(String content) {
-        this.mContent = content;
-    }
-
-    public String getLink() {
-        return mLink;
-    }
-
-    public void setLink(String link) {
-        this.mLink = link;
-    }
-
-    public String getPublishDate() {
-        return mPublishDate;
-    }
-
-    public void setPublishDate(String publishDate) {
-        mPublishDate = publishDate;
-    }
-
 
     @Override
     public int describeContents() {
@@ -61,9 +53,10 @@ public class FeedItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mTitle);
-        parcel.writeString(mContent);
-        parcel.writeString(mLink);
+        parcel.writeLong(id);
+        parcel.writeString(title);
+        parcel.writeString(content);
+        parcel.writeString(link);
     }
 
     public static final Creator<FeedItem> CREATOR = new Creator<FeedItem>() {
