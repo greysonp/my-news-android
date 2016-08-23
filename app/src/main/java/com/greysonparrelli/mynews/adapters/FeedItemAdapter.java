@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.greysonparrelli.mynews.R;
 import com.greysonparrelli.mynews.fragments.FeedFragment;
 import com.greysonparrelli.mynews.models.FeedItem;
+import com.greysonparrelli.mynews.models.FeedItemImage;
 import com.greysonparrelli.mynews.utils.HtmlUtil;
 
 import java.util.ArrayList;
@@ -88,11 +89,11 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
                 }
             });
 
-            List<String> imageUrls = HtmlUtil.getImgUrls(feedItem.content);
-            if (imageUrls.size() > 0) {
+            List<FeedItemImage> images = feedItem.getImages();
+            if (images.size() > 0) {
                 mThumbnail.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
-                        .load(imageUrls.get(0))
+                        .load(images.get(0).url)
                         .centerCrop()
                         .bitmapTransform(new RoundedCornersTransformation(itemView.getContext(), 20, 0))
                         .into(mThumbnail);

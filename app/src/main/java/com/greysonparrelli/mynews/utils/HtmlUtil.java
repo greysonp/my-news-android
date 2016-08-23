@@ -9,7 +9,7 @@ public class HtmlUtil {
 
     private static final Pattern IMG_PATTERN = Pattern.compile("<img.*src=\"([^\"\\s]*)[^<]*(\\/>|<\\/img>)");
 
-    public static List<String> getImgUrls(String html) {
+    public static List<String> getImageUrls(String html) {
         Matcher matcher = IMG_PATTERN.matcher(html);
 
         List<String> urls = new ArrayList<>();

@@ -1,8 +1,11 @@
 package com.greysonparrelli.mynews.utils;
 
+import android.util.Log;
+
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.greysonparrelli.mynews.models.FeedItem;
 import com.greysonparrelli.mynews.models.Feed;
+import com.greysonparrelli.mynews.models.FeedItemImage;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -10,6 +13,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -60,6 +65,7 @@ public class NetworkUtil {
             parser.setInput(in);
 
             FeedItem currentFeedItem = null;
+            List<FeedItemImage> images = new ArrayList<>();
             String name = null;
             String text = null;
             String link = null;
@@ -67,10 +73,15 @@ public class NetworkUtil {
                 switch (parser.getEventType()) {
                     case XmlPullParser.START_TAG:
                         name = parser.getName();
+                        Log.d("REMOVE", name);
                         if (name.equalsIgnoreCase("entry") || parser.getName().equalsIgnoreCase("item")) {
                             currentFeedItem = new FeedItem();
                         } else if (name.equalsIgnoreCase("link")) {
                             link = parser.getAttributeValue(null, "href");
+                        } else if (name.equalsIgnoreCase("media:thumbnail")) {
+                            FeedItemImage image = new FeedItemImage();
+                            image.url = parser.getAttributeValue(null, "url");
+                            images.add(image);
                         }
                         break;
                     case XmlPullParser.TEXT:
@@ -91,8 +102,18 @@ public class NetworkUtil {
                             }
                         } else {
                             if (name.equalsIgnoreCase("entry") || name.equalsIgnoreCase("item")) {
+                                if (!currentFeedItem.content.isEmpty()) {
+                                    List<String> imageUrls = HtmlUtil.getImageUrls(currentFeedItem.content);
+                                    for (String url : imageUrls) {
+                                        FeedItemImage image = new FeedItemImage();
+                                        image.url = url;
+                                        images.add(image);
+                                    }
+                                }
+                                currentFeedItem.addImages(images);
                                 feed.addEntry(currentFeedItem);
                                 currentFeedItem = null;
+                                images.clear();
                             } else if (name.equalsIgnoreCase("title")) {
                                 currentFeedItem.title = text;
                             } else if (name.equalsIgnoreCase("content") || name.equalsIgnoreCase("description")) {

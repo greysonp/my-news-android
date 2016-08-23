@@ -6,10 +6,14 @@ import android.os.Parcelable;
 import com.greysonparrelli.mynews.data.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.annotation.Unique;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Greyson Parrelli (keybase.io/greyson)
@@ -36,13 +40,33 @@ public class FeedItem extends BaseModel implements Parcelable {
     @Column
     public String publishDate;
 
-    public FeedItem() {}
+    List<FeedItemImage> images;
+
+    public FeedItem() {
+        images = new ArrayList<>();
+    }
 
     protected FeedItem(Parcel in) {
         id = in.readLong();
         title = in.readString();
         content = in.readString();
         link = in.readString();
+        images = new ArrayList<>();
+    }
+
+    public void addImages(List<FeedItemImage> images) {
+        this.images.addAll(images);
+    }
+
+    @OneToMany(methods = {OneToMany.Method.ALL})
+    public List<FeedItemImage> getImages() {
+        if (images == null || images.isEmpty()) {
+            images = SQLite.select()
+                    .from(FeedItemImage.class)
+                    .where(FeedItemImage_Table.feedItemId.eq(id))
+                    .queryList();
+        }
+        return images;
     }
 
     @Override

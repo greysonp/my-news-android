@@ -20,10 +20,10 @@ import com.greysonparrelli.mynews.views.FeedItemWebView;
  */
 public class FeedItemFragment extends Fragment {
 
-    public static String TAG = "FeedItemFragment";
+    public static final String TAG = "FeedItemFragment";
 
-    private static String KEY_FEED_ITEM = "feed_item";
-    private static String KEY_TITLE_TRANSITION_NAME = "title_transition_name";
+    private static final String KEY_FEED_ITEM = "feed_item";
+    private static final String KEY_TITLE_TRANSITION_NAME = "title_transition_name";
 
     private FeedItem mFeedItem;
     private String mTitleTransitionName;
@@ -81,6 +81,7 @@ public class FeedItemFragment extends Fragment {
         if (!mFeedItem.content.isEmpty()) {
             mContentView.setHtmlContent(mFeedItem.content);
         } else {
+            // TODO: Open in web browser or chrome tab thing
             mContentView.loadUrl(mFeedItem.link);
         }
     }

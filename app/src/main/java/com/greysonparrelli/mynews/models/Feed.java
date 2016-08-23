@@ -22,13 +22,13 @@ public class Feed extends BaseModel {
     @PrimaryKey(autoincrement = true)
     public long id;
 
-    @Column(name = "title")
+    @Column
     public String title;
 
-    @Column(name = "icon_url")
+    @Column
     public String iconUrl;
 
-    @Column(name = "link")
+    @Column
     public String link;
 
     List<FeedItem> entries;

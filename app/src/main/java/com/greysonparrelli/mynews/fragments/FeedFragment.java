@@ -78,7 +78,7 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        NetworkUtil.getFeed("http://www.theverge.com/rss/index.xml", new NetworkUtil.FeedCallback() {
+        NetworkUtil.getFeed("http://www.cnet.com/rss/all/", new NetworkUtil.FeedCallback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Toast.makeText(getContext(), "FAILED", Toast.LENGTH_SHORT).show();
