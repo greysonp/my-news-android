@@ -90,11 +90,14 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.FeedIt
 
             List<String> imageUrls = HtmlUtil.getImgUrls(feedItem.content);
             if (imageUrls.size() > 0) {
+                mThumbnail.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
                         .load(imageUrls.get(0))
                         .centerCrop()
                         .bitmapTransform(new RoundedCornersTransformation(itemView.getContext(), 20, 0))
                         .into(mThumbnail);
+            } else {
+                mThumbnail.setVisibility(View.GONE);
             }
         }
 

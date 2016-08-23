@@ -75,6 +75,9 @@ public class NetworkUtil {
                         break;
                     case XmlPullParser.TEXT:
                         text = parser.getText();
+                        if (text != null) {
+                            text = text.trim();
+                        }
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();

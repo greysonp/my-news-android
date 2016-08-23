@@ -31,7 +31,6 @@ public class FeedItem extends BaseModel implements Parcelable {
     public String content;
 
     @Column
-    @Unique
     public String link;
 
     @Column

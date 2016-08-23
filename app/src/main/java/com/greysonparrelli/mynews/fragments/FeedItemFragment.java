@@ -78,7 +78,11 @@ public class FeedItemFragment extends Fragment {
         super.onStart();
 
         mTitleView.setText(mFeedItem.title);
-        mContentView.setHtmlContent(mFeedItem.content);
+        if (!mFeedItem.content.isEmpty()) {
+            mContentView.setHtmlContent(mFeedItem.content);
+        } else {
+            mContentView.loadUrl(mFeedItem.link);
+        }
     }
 
     @Override
