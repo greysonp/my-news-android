@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.greysonparrelli.mynews.utils.DataUtil;
 import com.greysonparrelli.mynews.utils.NetworkUtil;
 import com.greysonparrelli.mynews.R;
 import com.greysonparrelli.mynews.adapters.FeedItemAdapter;

@@ -2,11 +2,13 @@ package com.greysonparrelli.mynews.models;
 
 import com.greysonparrelli.mynews.data.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ConflictAction;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
@@ -22,6 +24,10 @@ public class Feed extends BaseModel {
     @PrimaryKey(autoincrement = true)
     public long id;
 
+    @Unique(onUniqueConflict = ConflictAction.IGNORE)
+    @Column
+    public String url;
+
     @Column
     public String title;
 
@@ -30,6 +36,12 @@ public class Feed extends BaseModel {
 
     @Column
     public String link;
+
+    @Column
+    public String tags;
+
+    @Column
+    public String description;
 
     List<FeedItem> entries;
 
@@ -46,7 +58,7 @@ public class Feed extends BaseModel {
         if (entries == null || entries.isEmpty()) {
             entries = SQLite.select()
                     .from(FeedItem.class)
-                    .where(FeedItem_Table.feedId.eq(id))
+                    .where(FeedItem_Table.feed_id.eq(id))
                     .queryList();
         }
         return entries;

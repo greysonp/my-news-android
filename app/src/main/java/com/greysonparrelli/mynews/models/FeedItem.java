@@ -5,10 +5,12 @@ import android.os.Parcelable;
 
 import com.greysonparrelli.mynews.data.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
+import com.raizlabs.android.dbflow.annotation.ConflictAction;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
@@ -25,8 +27,8 @@ public class FeedItem extends BaseModel implements Parcelable {
     public long id;
 
     @Column
-    @ForeignKeyReference(columnName = "feed_id", foreignKeyColumnName = "id", columnType = Feed.class)
-    public long feedId;
+    @ForeignKey(tableClass = Feed.class)
+    public Feed feed;
 
     @Column
     public String title;
@@ -34,6 +36,7 @@ public class FeedItem extends BaseModel implements Parcelable {
     @Column
     public String content;
 
+    @Unique(onUniqueConflict = ConflictAction.IGNORE)
     @Column
     public String link;
 
@@ -63,7 +66,7 @@ public class FeedItem extends BaseModel implements Parcelable {
         if (images == null || images.isEmpty()) {
             images = SQLite.select()
                     .from(FeedItemImage.class)
-                    .where(FeedItemImage_Table.feedItemId.eq(id))
+                    .where(FeedItemImage_Table.feedItem_id.eq(id))
                     .queryList();
         }
         return images;

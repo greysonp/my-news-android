@@ -1,12 +1,13 @@
 package com.greysonparrelli.mynews.utils;
 
-import android.util.Log;
-
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.greysonparrelli.mynews.models.FeedItem;
 import com.greysonparrelli.mynews.models.Feed;
 import com.greysonparrelli.mynews.models.FeedItemImage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -32,6 +33,35 @@ public class NetworkUtil {
         sClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
+    }
+
+    public static void getFeedDatabase(final FeedsCallback callback) {
+        Request request = new Request.Builder()
+                .url("https://greysonp.github.io/rss-feeds/feeds.json")
+                .build();
+        sClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String body = response.body().string();
+                List<Feed> feeds = new ArrayList<>();
+                try {
+                    JSONObject root = new JSONObject(body);
+                    JSONArray jsonFeeds = root.getJSONArray("feeds");
+                    for (int i = 0; i < jsonFeeds.length(); i++) {
+                        JSONObject feed = jsonFeeds.getJSONObject(i);
+                        feeds.add(parseFeed(feed));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callback.onResponse(feeds);
+            }
+        });
     }
 
     public static void getFeed(String url, final FeedCallback callback) {
@@ -69,11 +99,11 @@ public class NetworkUtil {
             String name = null;
             String text = null;
             String link = null;
+            String feedUrl = null;
             while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
                 switch (parser.getEventType()) {
                     case XmlPullParser.START_TAG:
                         name = parser.getName();
-                        Log.d("REMOVE", name);
                         if (name.equalsIgnoreCase("entry") || parser.getName().equalsIgnoreCase("item")) {
                             currentFeedItem = new FeedItem();
                         } else if (name.equalsIgnoreCase("link")) {
@@ -82,6 +112,8 @@ public class NetworkUtil {
                             FeedItemImage image = new FeedItemImage();
                             image.url = parser.getAttributeValue(null, "url");
                             images.add(image);
+                        } else if (name.equalsIgnoreCase("atom:link")) {
+                            feedUrl = parser.getAttributeValue(null, "href");
                         }
                         break;
                     case XmlPullParser.TEXT:
@@ -99,6 +131,8 @@ public class NetworkUtil {
                                 feed.iconUrl = text;
                             } else if (name.equalsIgnoreCase("link")) {
                                 feed.link = text;
+                            } else if (name.equalsIgnoreCase("atom:link")) {
+                                feed.url = feedUrl;
                             }
                         } else {
                             if (name.equalsIgnoreCase("entry") || name.equalsIgnoreCase("item")) {
@@ -139,8 +173,25 @@ public class NetworkUtil {
         return feed;
     }
 
+    private static Feed parseFeed(JSONObject object) throws JSONException {
+        Feed feed = new Feed();
+        feed.url = object.getString("url");
+        feed.title = object.getString("title");
+        feed.link = object.getString("link");
+        feed.description = object.getString("description");
+        feed.iconUrl = object.getString("icon");
+        // TODO: tags
+
+        return feed;
+    }
+
     public interface FeedCallback {
         void onFailure(Call call, IOException e);
-        void onResponse(Feed body);
+        void onResponse(Feed feed);
+    }
+
+    public interface FeedsCallback {
+        void onFailure(Call call, IOException e);
+        void onResponse(List<Feed> feeds);
     }
 }
